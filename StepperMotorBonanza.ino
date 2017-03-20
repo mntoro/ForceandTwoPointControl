@@ -44,23 +44,27 @@ void setup() {
 
   Serial.begin(9600); // set up Serial library at 9600 bps
   
-  AFMS.begin(); // create with the default frequency 1.6KHz
+  AFMSone.begin(); // create with the default frequency 1.6KHz
+  AFMStwo.begin();
+//  AFMSthree.begin();
+//  AFMSfour.begin();
+//  AFMSfive.begin();
    
   myCanstack1->setSpeed(10);                                                                  //turn linear motor 1 to 10 rpm
   myStepper1->setSpeed(10);                                                                   //turn rotary motor 1 to 10 rpm
   myCanstack2->setSpeed(10);                                                                  //turn linear motor 2 to 10 rpm
   myStepper2->setSpeed(10);                                                                   //turn rotary motor 2 to 10 rpm 
-  myCanstack3->setSpeed(10);                                                                  //turn linear motor 3 to 10 rpm
-  myStepper3->setSpeed(10);                                                                   //turn rotary motor 3 to 10 rpm 
-  myCanstack4->setSpeed(10);                                                                  //turn linear motor 4 to 10 rpm
-  myStepper4->setSpeed(10);                                                                   //turn rotary motor 4 to 10 rpm 
-  myCanstack5->setSpeed(10);                                                                  //turn linear motor 5 to 10 rpm
-  myStepper5->setSpeed(10);                                                                   //turn rotary motor 5 to 10 rpm  
+//  myCanstack3->setSpeed(10);                                                                  //turn linear motor 3 to 10 rpm
+//  myStepper3->setSpeed(10);                                                                   //turn rotary motor 3 to 10 rpm 
+//  myCanstack4->setSpeed(10);                                                                  //turn linear motor 4 to 10 rpm
+//  myStepper4->setSpeed(10);                                                                   //turn rotary motor 4 to 10 rpm 
+//  myCanstack5->setSpeed(10);                                                                  //turn linear motor 5 to 10 rpm
+//  myStepper5->setSpeed(10);                                                                   //turn rotary motor 5 to 10 rpm  
 }
 
 // Main function
 void loop(){  
-  Serial.println("Which test would you like to begin? "f" = force, "t" = two point discrimination test, else = end program.");          //print to serial monitor
+  Serial.println("Which test would you like to begin? f = force, t = two point discrimination test, else = end program.");          //print to serial monitor
   while (!Serial.available()){}                                                                                                         //Do Absolutely Nothing until something is received over the serial port
   int begintest = Serial.read();                                                                                                        //define variable begintest as the choice the user makes as to which test they would like to run
 
@@ -92,27 +96,28 @@ int force() {
   Serial.println("Which finger do you want to test? a=1");                                        //1 is thumb, 2 is forefinger, 3 is middle finger, 4 is ring finger, 5 is pinky
   while (!Serial.available()){}                                                                   //Do Absolutely Nothing until something is received over the serial port
   int fingernumber = Serial.read();                                                               //fingernumber is the number associated with the finger they want to test
+  fingernumber = fingernumber - '0';
   
   //run appropriate force function according to the fingernumber that was input by the user
   switch (fingernumber) {
-    case "1":{
+    case 1:{
       forceone();
     }
       break;
-    case "2":{
+    case 2:{
       forcetwo();
     }
       break;
-    case "3":{
-      forcethree();
+    case 3:{
+//      forcethree();
     }
       break;
-    case "4":{
-      forcefour();
+    case 4:{
+//      forcefour();
     }
       break;
-    case "5":{
-      forcefive();
+    case 5:{
+//      forcefive();
     }
       break;  
   }
@@ -138,7 +143,7 @@ void forceone(){
   }                                                                                                
 
   Serial.println("Test will end."); 
-  return fingernumber;                                                                             //signal a return to GUI to stop test and output number
+  return;                                                                                         //signal a return to GUI to stop test and output number
 }
 
 //function for forefinger
@@ -160,71 +165,71 @@ void forcetwo(){
   }  
   
   Serial.println("Test will end.");
-  return fingernumber;                                                                            //signal a return to GUI to stop test and output number
+  return;                                                                                         //signal a return to GUI to stop test and output number
 }
 
-void forcethree(){
-  Serial.println("When you feel something, push down.");
-  
-  int forcesensor = 16;                                                                           //calling on the force sensor for a value
-  float grams = 0;                                                                                //initialize variable grams
+//void forcethree(){
+//  Serial.println("When you feel something, push down.");
+//  
+//  int forcesensor = 16;                                                                           //calling on the force sensor for a value
+//  float grams = 0;                                                                                //initialize variable grams
+//
+//  //loop to continue until force greater than gravity of a finger is applied to force sensor (equivalent to pushing on the force sensor)
+//  while (grams < 100) {                                                                           //Canstack motor moves until pushed down
+//
+//    float sensedforce = analogRead(forcesensor);                                                  //value received from force sensor
+//    float voltage = sensedforce*5/1023;                                                           //convert value to voltage
+//    grams = voltage/0.12;                                                                         //convert voltage to grams
+//    Serial.println(grams);                                                                        //print grams to screen
+//  
+//    myCanstack3->step(100, FORWARD, DOUBLE); 
+//  }
+//
+//  Serial.println("Test will end.");
+//  return;                                                                                         //signal a return to GUI to stop test and output number
+//}
 
-  //loop to continue until force greater than gravity of a finger is applied to force sensor (equivalent to pushing on the force sensor)
-  while (grams < 100) {                                                                           //Canstack motor moves until pushed down
+//void forcefour(){
+//  Serial.println("When you feel something, push down.");
+//  
+//  int forcesensor = 17;                                                                           //calling on the force sensor for a value
+//  float grams = 0;                                                                                //initialize variable grams
+//
+//  //loop to continue until force greater than gravity of a finger is applied to force sensor (equivalent to pushing on the force sensor)
+//  while (grams < 100) {                                                                           //Canstack motor moves until pushed down
+//
+//    float sensedforce = analogRead(forcesensor);                                                  //value received from force sensor
+//    float voltage = sensedforce*5/1023;                                                           //convert value to voltage
+//    grams = voltage/0.12;                                                                         //convert voltage to grams
+//    Serial.println(grams);                                                                        //print grams to screen
+//  
+//    myCanstack4->step(100, FORWARD, DOUBLE); 
+//  }
+//  
+//  Serial.println("Test will end.");
+//  return;                                                                                        //signal a return to GUI to stop test and output number
+//}
 
-    float sensedforce = analogRead(forcesensor);                                                  //value received from force sensor
-    float voltage = sensedforce*5/1023;                                                           //convert value to voltage
-    grams = voltage/0.12;                                                                         //convert voltage to grams
-    Serial.println(grams);                                                                        //print grams to screen
-  
-    myCanstack3->step(100, FORWARD, DOUBLE); 
-  }
-
-  Serial.println("Test will end.");
-  return fingernumber;                                                                            //signal a return to GUI to stop test and output number
-}
-
-void forcefour(){
-  Serial.println("When you feel something, push down.");
-  
-  int forcesensor = 17;                                                                           //calling on the force sensor for a value
-  float grams = 0;                                                                                //initialize variable grams
-
-  //loop to continue until force greater than gravity of a finger is applied to force sensor (equivalent to pushing on the force sensor)
-  while (grams < 100) {                                                                           //Canstack motor moves until pushed down
-
-    float sensedforce = analogRead(forcesensor);                                                  //value received from force sensor
-    float voltage = sensedforce*5/1023;                                                           //convert value to voltage
-    grams = voltage/0.12;                                                                         //convert voltage to grams
-    Serial.println(grams);                                                                        //print grams to screen
-  
-    myCanstack4->step(100, FORWARD, DOUBLE); 
-  }
-  
-  Serial.println("Test will end.");
-  return returningvalues;                                                                         //signal a return to GUI to stop test and output number
-}
-
-void forcefive(){
-  Serial.println("When you feel something, push down.");
-  
-  int forcesensor = 18;                                                                           //calling on the force sensor for a value
-  float grams = 0;                                                                                //initialize variable grams
-
-  //loop to continue until force greater than gravity of a finger is applied to force sensor (equivalent to pushing on the force sensor)
-  while (grams < 100) {                                                                           //Canstack motor moves until pushed down
-
-    float sensedforce = analogRead(forcesensor);                                                  //value received from force sensor
-    float voltage = sensedforce*5/1023;                                                           //convert value to voltage
-    grams = voltage/0.12;                                                                         //convert voltage to grams
-    Serial.println(grams);                                                                        //print grams to screen
-  
-    myCanstack5->step(100, FORWARD, DOUBLE); 
-  }
-  
-  Serial.println("Test will end.");
-  return returningvalues;                                                                         //signal a return to GUI to stop test and output number
-}
+//void forcefive(){
+//  Serial.println("When you feel something, push down.");
+//  
+//  int forcesensor = 18;                                                                           //calling on the force sensor for a value
+//  float grams = 0;                                                                                //initialize variable grams
+//
+//  //loop to continue until force greater than gravity of a finger is applied to force sensor (equivalent to pushing on the force sensor)
+//  while (grams < 100) {                                                                           //Canstack motor moves until pushed down
+//
+//    float sensedforce = analogRead(forcesensor);                                                  //value received from force sensor
+//    float voltage = sensedforce*5/1023;                                                           //convert value to voltage
+//    grams = voltage/0.12;                                                                         //convert voltage to grams
+//    Serial.println(grams);                                                                        //print grams to screen
+//  
+//    myCanstack5->step(100, FORWARD, DOUBLE); 
+//  }
+//  
+//  Serial.println("Test will end.");
+//  return;                                                                                        //signal a return to GUI to stop test and output number
+//}
 
 /////Randomize two-point test
 //
@@ -246,34 +251,35 @@ void forcefive(){
 
 
 //two-point discrimination test
-int twopoint(int totalstepstotake) {
+int twopoint() {
 
   Serial.println("Enter which finger you want to test (1-5).");
   while (!Serial.available()){}                                                                   //Do Absolutely Nothing until something is received over the serial port
-  int fingernumber = Serial.read();                                                               //user chooses finger
+  int fingernumber = Serial.read(); //user chooses finger
+  fingernumber = fingernumber - '0';
   int totalstepsaround = 25;                                                                      //the rotary motor must go 25 steps to turn to each side of the octagon wheel - this represents the first side
 
   //loops until the code returns a value (the user correctly felt something) or the wheel exceeds 5 turns (the user failed 5 times)
   //based on finger user chose, will activate specific motors
   while(totalstepsaround <= 125){
     switch (fingernumber) {
-      case "1":{
+      case 1:{
         twopointone();
       }
         break;
-      case "2":{
+      case 2:{
         twopointtwo();
       }
         break;
-      case "3":{
+      case 3:{
         twopointthree();
       }
         break;
-      case "4":{
+      case 4:{
         twopointfour();
       }
         break;
-      case "5":{
+      case 5:{
         twopointfive();
       }
         break;  
@@ -326,14 +332,13 @@ int twopoint(int totalstepstotake) {
 
     //if they picked the correct finger
     if (fingernumberread == fingernumber){
-      Serial.println("That is the correct finger. Test will end.")
+      Serial.println("That is the correct finger. Test will end.");
       return fingernumber;                                                                        //also need to return totalstepstotake
     }
 
     //if they picked the incorrect finger
     else {
       Serial.println("That is the incorrect finger.");
-      myCanstack->step(totalstepstotake, BACKWARD, DOUBLE); 
       totalstepsaround = totalstepsaround + 25;
       lowermotors();  
     }
@@ -345,9 +350,9 @@ int twopoint(int totalstepstotake) {
 void lowermotors(){
   myCanstack1->step(100, BACKWARD, DOUBLE);
   myCanstack2->step(100, BACKWARD, DOUBLE);
-  myCanstack3->step(100, BACKWARD, DOUBLE);
-  myCanstack4->step(100, BACKWARD, DOUBLE);
-  myCanstack5->step(100, BACKWARD, DOUBLE);
+//  myCanstack3->step(100, BACKWARD, DOUBLE);
+//  myCanstack4->step(100, BACKWARD, DOUBLE);
+//  myCanstack5->step(100, BACKWARD, DOUBLE);
 }
 
 //function to run a two point test on finger one
@@ -355,9 +360,9 @@ void twopointone(){
   myStepper1->step(25, FORWARD, DOUBLE);                                                          //25 is the number of steps per turn
   myCanstack1->step(100, FORWARD, DOUBLE);                                                        //100 is temporary, should be steps needed to feel force in force test
   myCanstack2->step(100, FORWARD, DOUBLE);
-  myCanstack3->step(100, FORWARD, DOUBLE);
-  myCanstack4->step(100, FORWARD, DOUBLE);
-  myCanstack5->step(100, FORWARD, DOUBLE);
+//  myCanstack3->step(100, FORWARD, DOUBLE);
+//  myCanstack4->step(100, FORWARD, DOUBLE);
+//  myCanstack5->step(100, FORWARD, DOUBLE);
 }
 
 //function to run a two point test on finger two
@@ -365,38 +370,38 @@ void twopointtwo(){
   myStepper2->step(25, FORWARD, DOUBLE);
   myCanstack1->step(100, FORWARD, DOUBLE); 
   myCanstack2->step(100, FORWARD, DOUBLE);
-  myCanstack3->step(100, FORWARD, DOUBLE);
-  myCanstack4->step(100, FORWARD, DOUBLE);
-  myCanstack5->step(100, FORWARD, DOUBLE);
+//  myCanstack3->step(100, FORWARD, DOUBLE);
+//  myCanstack4->step(100, FORWARD, DOUBLE);
+//  myCanstack5->step(100, FORWARD, DOUBLE);
 }
 
 //function to run a two point test on finger three
 void twopointthree(){
-  myStepper3->step(25, FORWARD, DOUBLE);
+//  myStepper3->step(25, FORWARD, DOUBLE);
   myCanstack1->step(100, FORWARD, DOUBLE); 
   myCanstack2->step(100, FORWARD, DOUBLE);
-  myCanstack3->step(100, FORWARD, DOUBLE);
-  myCanstack4->step(100, FORWARD, DOUBLE);
-  myCanstack5->step(100, FORWARD, DOUBLE);
+//  myCanstack3->step(100, FORWARD, DOUBLE);
+//  myCanstack4->step(100, FORWARD, DOUBLE);
+//  myCanstack5->step(100, FORWARD, DOUBLE);
 }
 
 //function to run a two point test on finger four
 void twopointfour(){
-  myStepper4->step(25, FORWARD, DOUBLE);
+//  myStepper4->step(25, FORWARD, DOUBLE);
   myCanstack1->step(100, FORWARD, DOUBLE); 
   myCanstack2->step(100, FORWARD, DOUBLE);
-  myCanstack3->step(100, FORWARD, DOUBLE);
-  myCanstack4->step(100, FORWARD, DOUBLE);
-  myCanstack5->step(100, FORWARD, DOUBLE); 
+//  myCanstack3->step(100, FORWARD, DOUBLE);
+//  myCanstack4->step(100, FORWARD, DOUBLE);
+//  myCanstack5->step(100, FORWARD, DOUBLE); 
 }
 
 //function to run a two point test on finger five
 void twopointfive(){
-  myStepper5->step(25, FORWARD, DOUBLE);
+//  myStepper5->step(25, FORWARD, DOUBLE);
   myCanstack1->step(100, FORWARD, DOUBLE); 
   myCanstack2->step(100, FORWARD, DOUBLE);
-  myCanstack3->step(100, FORWARD, DOUBLE);
-  myCanstack4->step(100, FORWARD, DOUBLE);
-  myCanstack5->step(100, FORWARD, DOUBLE); 
+//  myCanstack3->step(100, FORWARD, DOUBLE);
+//  myCanstack4->step(100, FORWARD, DOUBLE);
+//  myCanstack5->step(100, FORWARD, DOUBLE); 
 }
 
