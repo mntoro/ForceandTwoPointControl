@@ -75,7 +75,7 @@ void loop(){
   } 
 
   //starts the two point discrimination test
-  if (begintest == 't'){
+  else if (begintest == 't'){
     Serial.println("You are beginning the twopoint test.");
     twopoint();
   }
